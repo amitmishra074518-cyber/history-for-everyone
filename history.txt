@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Mishra Archives | History Unearthed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-panel: rgba(255, 255, 255, 0.05);
+            --gold-gradient: linear-gradient(45deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --font-head: 'Cinzel', serif;
+            --font-body: 'Lato', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: #e0e0e0;
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- Animations --- */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: slideUp 0.6s ease-out forwards; }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 1px solid rgba(191, 149, 63, 0.2);
+        }
+
+        .logo { 
+            font-family: var(--font-head);
+            font-weight: 700;
+            font-size: 1.5rem; 
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+        }
+
+        .nav-links button {
+            background: none; border: none; color: #fff;
+            margin-left: 30px; text-transform: uppercase;
+            font-size: 0.8rem; letter-spacing: 2px; cursor: pointer;
+            transition: color 0.3s; font-family: var(--font-body);
+        }
+        .nav-links button:hover { color: #bf953f; }
+
+        /* --- SECTIONS --- */
+        .page-section {
+            min-height: 100vh; width: 100%;
+            padding-top: 100px;
+            display: none; /* Hidden by default */
+            flex-direction: column; align-items: center;
+        }
+
+        .page-section.active { display: flex; }
+
+        /* --- HOME --- */
+        #home {
+            justify-content: center; text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1461360370896-922624d12aa1?q=80&w=2074&auto=format&fit=crop') no-repeat center center/cover;
+            padding-top: 0;
+        }
+        #home h1 { font-size: 4rem; font-family: var(--font-head); background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .btn-gold {
+            padding: 15px 40px; background: var(--gold-gradient); color: #000;
+            border: none; font-weight: bold; text-transform: uppercase;
+            letter-spacing: 2px; cursor: pointer; transition: 0.3s; margin-top: 20px;
+        }
+        .btn-gold:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(191, 149, 63, 0.5); }
+
+        /* --- TIMELINE GRID --- */
+        .grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px; width: 85%; max-width: 1200px; margin-top: 40px; padding-bottom: 50px;
+        }
+        .card {
+            background: var(--bg-panel); padding: 40px 30px;
+            border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; cursor: pointer;
+        }
+        .card:hover { border-color: #bf953f; transform: translateY(-5px); background: rgba(255,255,255,0.08); }
+        .card h3 { color: #bf953f; font-family: var(--font-head); margin-bottom: 10px; }
+
+        /* --- ERA DETAIL VIEWER (The New Content Section) --- */
+        #era-viewer { padding: 100px 10%; align-items: flex-start; }
+        
+        .back-btn {
+            background: none; border: 1px solid #bf953f; color: #bf953f;
+            padding: 10px 20px; cursor: pointer; margin-bottom: 30px;
+            text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;
+            transition: 0.3s;
+        }
+        .back-btn:hover { background: #bf953f; color: #000; }
+
+        #era-image {
+            width: 100%; height: 300px; object-fit: cover;
+            border-bottom: 3px solid #bf953f; margin-bottom: 40px;
+            opacity: 0.8;
+        }
+
+        #era-title { font-size: 3rem; font-family: var(--font-head); color: #fff; margin-bottom: 20px; }
+        #era-text { font-size: 1.1rem; line-height: 1.8; color: #ccc; max-width: 800px; white-space: pre-line; }
+
+        /* --- PRELOADER --- */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999; display: flex;
+            justify-content: center; align-items: center; flex-direction: column;
+            transition: opacity 0.8s ease;
+        }
+        .loader-ring {
+            width: 80px; height: 80px; border: 4px solid transparent;
+            border-top: 4px solid #bf953f; border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        @media (max-width: 768px) {
+            #home h1 { font-size: 2
